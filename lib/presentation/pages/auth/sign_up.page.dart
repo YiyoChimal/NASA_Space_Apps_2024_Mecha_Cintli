@@ -53,7 +53,7 @@ class SignUpPage extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 50),
               child: ElevatedButton(
                 onPressed: () {
-                  context.go('/login');
+                  context.go('/location');
                 },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
