@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CropTile extends StatelessWidget {
-  const CropTile({
+class CropTitle5 extends StatelessWidget {
+  const CropTitle5({
     super.key,
   });
 
@@ -28,7 +28,7 @@ final primaryGreen = const Color.fromRGBO(88, 144, 107, 1);
               borderRadius: BorderRadius.circular(100),
               color: primaryGreen,
               image: const DecorationImage(
-                image: AssetImage('assets/images/7.png'),
+                image: AssetImage('assets/images/4.png'),
                 fit: BoxFit.cover,
               ),
             ),

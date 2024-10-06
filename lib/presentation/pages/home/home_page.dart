@@ -1,5 +1,13 @@
+import 'package:crop_shield/presentation/widgets/home/crop_tile%20copy%202.dart';
+import 'package:crop_shield/presentation/widgets/home/crop_tile%20copy%203.dart';
+import 'package:crop_shield/presentation/widgets/home/crop_tile%20copy.dart';
 import 'package:crop_shield/presentation/widgets/home/crop_tile.dart';
+import 'package:crop_shield/presentation/widgets/home/crop_title2.dart';
 import 'package:crop_shield/presentation/widgets/home/disaster_card.dart';
+import 'package:crop_shield/presentation/widgets/home/disaster_card2.dart';
+import 'package:crop_shield/presentation/widgets/home/disaster_card3.dart';
+import 'package:crop_shield/presentation/widgets/home/disaster_card4.dart';
+import 'package:crop_shield/presentation/widgets/home/disaster_card5.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -55,12 +63,12 @@ class _HomePageState extends State<HomePage> {
                 child: Row(
                   children: [
                     DisasterCard(),
-                    DisasterCard(),
-                    DisasterCard(),
-                    DisasterCard(),
-                    DisasterCard(),
-                    DisasterCard(),
-                    DisasterCard(),
+                    DisasterCard2(),
+                    DisasterCard3(),
+                    DisasterCard4(),
+                    DisasterCard5(),
+                    
+                
                   ],
                 ),
               ),
@@ -75,13 +83,16 @@ class _HomePageState extends State<HomePage> {
               Expanded(
                 child: ListView(
                   shrinkWrap: true,
-                  children: const [
+                  children: const[
                     CropTile(),
-                    CropTile(),
-                    CropTile(),
-                    CropTile(),
-                    CropTile(),
-                    CropTile(),
+                    CropTitle2(),
+                    CropTitle3(),
+                    CropTitle4(),
+                    CropTitle5(),
+                    
+
+
+
                   ],
                 ),
               )
