@@ -3,13 +3,20 @@ import 'package:crop_shield/presentation/widgets/disaster_card.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final greenAccent = const Color.fromRGBO(146, 172, 143, 0.41);
   final primaryGreen = const Color.fromRGBO(88, 144, 107, 1);
   final hintColor = const Color.fromRGBO(121, 121, 121, 1);
   final backgroundColor = const Color.fromRGBO(255, 255, 255, 1);
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -83,20 +90,6 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(items: const [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Home',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.add),
-          label: 'Add',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person),
-          label: 'Profile',
-        ),
-      ]),
     );
   }
 

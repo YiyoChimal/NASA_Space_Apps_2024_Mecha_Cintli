@@ -67,7 +67,7 @@ class LoginPage extends StatelessWidget {
                     child: const Text('Cancel'),
                   ),
                   ElevatedButton(
-                    onPressed: () => context.push('/home'),
+                    onPressed: () => context.push('/main'),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),

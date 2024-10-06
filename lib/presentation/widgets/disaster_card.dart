@@ -6,8 +6,8 @@ class DisasterCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 150,
-      padding: const EdgeInsets.all(10),
+      width: 170,
+      margin: const EdgeInsets.only(right: 5),
       child: Card(
         color: const Color.fromRGBO(71, 133, 92, 0.91),
         child: Column(
