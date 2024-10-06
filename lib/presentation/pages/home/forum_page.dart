@@ -2,6 +2,8 @@ import 'package:crop_shield/presentation/widgets/forum_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../widgets/seach_widget.dart';
+
 class ForumPage extends StatefulWidget {
   const ForumPage({super.key});
 
@@ -52,22 +54,4 @@ class _ForumPageState extends State<ForumPage> {
       ),
     );
   }
-
-  SizedBox homeTextInput() {
-    return SizedBox(
-      height: 50,
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: 'Search info...',
-          filled: true,
-          fillColor: greenAccent,
-          prefixIcon: const Icon(Icons.search),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
-          ),
-        ),
-      ),
-    );
-  }
 }
-

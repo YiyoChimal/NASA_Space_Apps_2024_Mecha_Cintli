@@ -3,6 +3,8 @@ import 'package:crop_shield/presentation/widgets/home/disaster_card.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../widgets/seach_widget.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -90,20 +92,5 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  SizedBox homeTextInput() {
-    return SizedBox(
-      height: 50,
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: 'Search info...',
-          filled: true,
-          fillColor: greenAccent,
-          prefixIcon: const Icon(Icons.search),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
-          ),
-        ),
-      ),
-    );
-  }
+  
 }

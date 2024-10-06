@@ -1,5 +1,8 @@
 import 'package:crop_shield/presentation/pages/home/forum_page.dart';
 import 'package:crop_shield/presentation/pages/home/home_page.dart';
+import 'package:crop_shield/presentation/pages/home/map_page.dart';
+import 'package:crop_shield/presentation/pages/home/profile_page.dart';
+import 'package:crop_shield/presentation/pages/home/shop_page.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
@@ -14,9 +17,9 @@ List<Widget> _buildScreens() {
   return [
     const HomePage(),
     const ForumPage(),
-    const Center(child: Text('Map')),
-    const Center(child: Text('Market')),
-    const Center(child: Text('Profile')),
+    const MapPage(),
+    const ShopPage(),
+    const ProfilePage(),
   ];
 }
 
@@ -42,7 +45,7 @@ List<PersistentBottomNavBarItem> _navBarsItems() {
     ),
     PersistentBottomNavBarItem(
       icon: const Icon(Icons.shopping_cart),
-      title: ("Market"),
+      title: ("Shop"),
       activeColorPrimary: Colors.green,
       inactiveColorPrimary: Colors.grey,
     ),
