@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "885303142361",
+    "project_id": "crop-shield",
+    "storage_bucket": "crop-shield.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:885303142361:android:cfd891e23a9f3406b55bc8",
+        "android_client_info": {
+          "package_name": "org.cropshield.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATliw20h2NBsRX9jakDjYqWTC1aqHPlYw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -5,13 +5,13 @@ import 'package:provider/provider.dart';
 import '../../../core/provider/location_provider.dart';
 
 class UserLocationMap extends StatefulWidget {
-  const UserLocationMap({Key? key}) : super(key: key);
+  const UserLocationMap({super.key});
 
   @override
-  _UserLocationMapState createState() => _UserLocationMapState();
+  UserLocationMapState createState() => UserLocationMapState();
 }
 
-class _UserLocationMapState extends State<UserLocationMap> {
+class UserLocationMapState extends State<UserLocationMap> {
   late GoogleMapController mapController;
 
   @override
