@@ -4,9 +4,11 @@
 _Project by Team Mecha-CINTL_
 
 ## About Us
+
 We are a team of enthusiastic students passionate about utilizing technology to tackle global challenges. Our goal is to demonstrate how our knowledge and skills can help farmers reduce losses, promote sustainable agriculture, and improve decision-making in the agricultural sector.
 
 ## Objectives
+
 Our main objectives are to:
 
 - **Help Farmers**:
@@ -19,20 +21,24 @@ Our main objectives are to:
     - Long-term productivity
 
 ## Challenges in Agriculture
+
 Farmers face numerous challenges that our app aims to address:
 
-### 🌧️ Weather Challenges:
+### 🌧️ Weather Challenges
+
 - **Floods**
 - **Droughts**
 - **Hurricanes**
 - **Tornados**
 
-### 🌱 Soil Challenges:
+### 🌱 Soil Challenges
+
 - **pH levels**
 - **Soil humidity**
 - **Macronutrient levels**
 
-### 🦗 Pest Challenges:
+### 🦗 Pest Challenges
+
 - **Insects**
 - **Microorganisms**
 - **Animals**
@@ -44,18 +50,19 @@ Our app leverages Earth observation data, sensors, and real-time analytics to em
 > [!IMPORTANT]  
 > The app integrates **Earth observation data** with **real-time analytics** to give farmers accurate and timely information about threats to their crops. The goal is to help them mitigate risks and reduce losses.
 
-### 📋 Key Features:
+### 📋 Key Features
+
 1. **Weather & Seasonal Warnings**:  
    Receive real-time warnings and notifications about extreme weather events or seasonal changes that could affect your crops.
-   
+
    > [!WARNING]  
    > Real-time alerts can help farmers protect their crops from weather-related disasters like droughts or floods. Missing an alert may lead to severe crop damage.
 
 2. **Interconnection with Other Farmers**:  
    Connect with other farmers for shared insights, advice, and local crop-related information.
 
-   > [!TIP]  
-   > Connecting with local farmers helps to stay informed about regional challenges that may affect crops, such as pests or soil issues.
+    > [!TIP]
+    > Connecting with local farmers helps to stay informed about regional challenges that may affect crops, such as pests or soil issues.
 
 3. **Access to Expert Advice**:  
    Contact agricultural experts for guidance and recommendations on improving crop health and handling challenges.
@@ -70,9 +77,10 @@ Our app leverages Earth observation data, sensors, and real-time analytics to em
    > Location and sensor data provide highly customized recommendations based on your specific farm conditions. Regular sensor calibration is essential for accurate readings.
 
 ## How to Get Started
+
 1. **Download the App**:  
    The Crop Shield app will be available for download on both Android and iOS platforms.
-   
+
 2. **Set Up Your Farm Profile**:  
    Enter details about your crops, location, and farm size to receive customized recommendations.
 
@@ -92,6 +100,7 @@ Our app leverages Earth observation data, sensors, and real-time analytics to em
 > Make sure to regularly check the app for updates and alerts. Delays in addressing these can have negative consequences on crop health.
 
 ## Contributing
+
 We welcome contributions from the community! If you're interested in improving our app or have ideas on how to enhance our features, please follow these steps:
 
 1. Fork the repository
@@ -104,6 +113,7 @@ We welcome contributions from the community! If you're interested in improving o
 > When contributing, it's good practice to follow our coding guidelines and check for open issues that may align with your work.
 
 ## License
+
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
