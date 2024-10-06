@@ -1,6 +1,0 @@
-Crop,temperature_2m (°C),relative_humidity_2m (%),dew_point_2m (°C),apparent_temperature (°C),precipitation (mm),evapotranspiration (mm),soil_temperature_0cm (°C),soil_moisture_0_to_1cm (m3/m3),wind_speed_10m (m/s),pressure_msl (hPa),soil_moisture_index_-15cm (idx),volumetric_soil_water_-15cm (m3/m3),drought_index (idx),vapor_pressure_deficit_2m (hPa)
-Carrot,7-21,50-70,5-18,15-18,25 mm/week,5-7 mm/day,7-21,0.2-0.3,<5,1010-1020,Moderate,0.3-0.31,0-2,0.5-1.2
-Potato,10-25,60-80,7-18,15-25,500-700 mm total,3-5 mm/day,10-25,0.2-0.35,<5,1010-1020,Moderate-High,0.3-0.35,0-2,0.5-1.5
-Maize,16-32,60-75,12-25,20-30,500-800 mm total,6-10 mm/day,18-32,0.3-0.4,2-5,1010-1025,High,0.35-0.4,2-4,1.0-2.5
-Wheat,10-22,50-70,7-18,15-22,300-500 mm total,4-6 mm/day,10-22,0.2-0.35,1-4,1010-1025,Moderate,0.3-0.35,0-2,0.5-1.5
-Cotton,15-35,50-70,10-30,21-30,500-1000 mm total,7-10 mm/day,15-35,0.3-0.4,1-5,1010-1020,High,0.35-0.4,2-4,1.0-2.5
