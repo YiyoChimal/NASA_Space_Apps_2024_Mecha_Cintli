@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -52,6 +53,7 @@ class SignUpPage extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 50),
               child: ElevatedButton(
                 onPressed: () {
+                  context.go('/login');
                 },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
