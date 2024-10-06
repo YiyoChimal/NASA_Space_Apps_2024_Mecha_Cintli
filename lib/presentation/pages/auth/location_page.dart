@@ -57,7 +57,7 @@ class _LocationPageState extends State<LocationPage> {
                     child: Text(
                       userLocation != null
                           ? 'Lat: ${userLocation.latitude}, Lng: ${userLocation.longitude}'
-                          : 'Fetching location...', // Mostrar mensaje si no hay coordenadas aún
+                          : 'Fetching location...', 
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
