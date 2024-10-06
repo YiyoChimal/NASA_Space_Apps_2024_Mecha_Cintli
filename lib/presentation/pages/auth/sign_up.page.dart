@@ -16,6 +16,18 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final formKey = GlobalKey<FormState>();
+    final TextEditingController usernameController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController numberController = TextEditingController();
+
+    void signUp() {
+      if (formKey.currentState!.validate()) {
+
+      }
+    }
+
     return Scaffold(
       backgroundColor: backgroundColor,
       body: Column(
@@ -41,12 +53,18 @@ class SignUpPage extends StatelessWidget {
             style: titleStyle,
           ),
           const SizedBox(height: 20),
-          
-          signUpTextField('Username', Icons.account_circle),
-          signUpTextField('Password', Icons.lock),
-          signUpTextField('Email', Icons.email),
-          signUpTextField('Number', Icons.phone),
-
+          Form(
+            key: formKey,
+            child: Column(
+              children: [
+                signUpTextField(
+                    'Username', Icons.account_circle, usernameController),
+                signUpTextField('Password', Icons.lock, passwordController),
+                signUpTextField('Email', Icons.email, emailController),
+                signUpTextField('Number', Icons.phone, numberController),
+              ],
+            ),
+          ),
           Align(
             alignment: Alignment.centerRight,
             child: Container(
@@ -71,12 +89,11 @@ class SignUpPage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 30),
-
           Expanded(
             child: Stack(
               children: [
                 Positioned(
-                  top:0,
+                  top: 0,
                   left: -100,
                   child: CircleAvatar(
                     radius: 150,
@@ -108,11 +125,13 @@ class SignUpPage extends StatelessWidget {
   }
 
   // Función que crea los campos de texto personalizados
-  Container signUpTextField(String hintText, IconData icon) {
+  Container signUpTextField(
+      String hintText, IconData icon, TextEditingController formController) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 50),
       margin: const EdgeInsets.symmetric(vertical: 10),
       child: TextField(
+        controller: formController,
         decoration: InputDecoration(
           hintText: hintText,
           hintStyle: TextStyle(
