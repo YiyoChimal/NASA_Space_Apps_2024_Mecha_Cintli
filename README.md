@@ -61,8 +61,8 @@ Our app leverages Earth observation data, sensors, and real-time analytics to em
 2. **Interconnection with Other Farmers**:  
    Connect with other farmers for shared insights, advice, and local crop-related information.
 
-    > [!TIP]
-    > Connecting with local farmers helps to stay informed about regional challenges that may affect crops, such as pests or soil issues.
+   > [!TIP]  
+   > Connecting with local farmers helps to stay informed about regional challenges that may affect crops, such as pests or soil issues.
 
 3. **Access to Expert Advice**:  
    Contact agricultural experts for guidance and recommendations on improving crop health and handling challenges.
