@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class DisasterCard extends StatelessWidget {
-  const DisasterCard({super.key});
+  const DisasterCard({super.key, this.title});
+
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class DisasterCard extends StatelessWidget {
                   color: const Color.fromRGBO(44, 88, 59, 1.91),
                   borderRadius: BorderRadius.circular(5),
                 ),
-                child: const Text('Droughts'))
+                child:  Text(title ?? 'Flood')),
           ],
         ),
       ),

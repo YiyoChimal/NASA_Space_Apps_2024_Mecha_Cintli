@@ -1,5 +1,5 @@
-import 'package:crop_shield/presentation/widgets/crop_tile.dart';
-import 'package:crop_shield/presentation/widgets/disaster_card.dart';
+import 'package:crop_shield/presentation/widgets/home/crop_tile.dart';
+import 'package:crop_shield/presentation/widgets/home/disaster_card.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -15,8 +15,6 @@ class _HomePageState extends State<HomePage> {
   final primaryGreen = const Color.fromRGBO(88, 144, 107, 1);
   final hintColor = const Color.fromRGBO(121, 121, 121, 1);
   final backgroundColor = const Color.fromRGBO(255, 255, 255, 1);
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +61,6 @@ class _HomePageState extends State<HomePage> {
                     DisasterCard(),
                   ],
                 ),
-
               ),
               const SizedBox(height: 20),
               const Text(
@@ -95,18 +92,18 @@ class _HomePageState extends State<HomePage> {
 
   SizedBox homeTextInput() {
     return SizedBox(
-              height: 50,
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Search info...',
-                  filled: true,
-                  fillColor: greenAccent,
-                  prefixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-              ),
-            );
+      height: 50,
+      child: TextField(
+        decoration: InputDecoration(
+          hintText: 'Search info...',
+          filled: true,
+          fillColor: greenAccent,
+          prefixIcon: const Icon(Icons.search),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
+      ),
+    );
   }
 }

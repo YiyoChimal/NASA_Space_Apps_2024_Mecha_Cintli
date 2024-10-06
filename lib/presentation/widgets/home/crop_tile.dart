@@ -7,7 +7,7 @@ class CropTile extends StatelessWidget {
   });
 
 final greenAccent = const Color.fromRGBO(146, 172, 143, 0.41);
-  final primaryGreen = const Color.fromRGBO(88, 144, 107, 1);
+final primaryGreen = const Color.fromRGBO(88, 144, 107, 1);
 
   @override
   Widget build(BuildContext context) {
