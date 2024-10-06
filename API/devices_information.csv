@@ -1,0 +1,3 @@
+IP Fija,Número de Serie,Fecha de Recolección,Módulo,Temperatura Ambiental,Presión Atmosférica,pH,Humedad del Suelo
+192.168.1.100,ABC123456789,2024-10-06,Módulo 1,25.6,1012,6.5,45.7
+192.168.1.100,ABC123456789,2024-10-06,Módulo 2,24.8,1010,6.8,40.3
