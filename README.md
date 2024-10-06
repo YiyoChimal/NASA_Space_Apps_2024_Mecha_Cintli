@@ -55,14 +55,8 @@ Our app leverages Earth observation data, sensors, and real-time analytics to em
 1. **Weather & Seasonal Warnings**:  
    Receive real-time warnings and notifications about extreme weather events or seasonal changes that could affect your crops.
 
-   > [!WARNING]  
-   > Real-time alerts can help farmers protect their crops from weather-related disasters like droughts or floods. Missing an alert may lead to severe crop damage.
-
 2. **Interconnection with Other Farmers**:  
    Connect with other farmers for shared insights, advice, and local crop-related information.
-
-   > [!TIP]  
-   > Connecting with local farmers helps to stay informed about regional challenges that may affect crops, such as pests or soil issues.
 
 3. **Access to Expert Advice**:  
    Contact agricultural experts for guidance and recommendations on improving crop health and handling challenges.
@@ -73,9 +67,6 @@ Our app leverages Earth observation data, sensors, and real-time analytics to em
 5. **Location & Sensor Data**:  
    Get precise information about your farm’s location and receive data from on-site sensors monitoring soil health, weather, and pests.
 
-   > [!NOTE]  
-   > Location and sensor data provide highly customized recommendations based on your specific farm conditions. Regular sensor calibration is essential for accurate readings.
-
 ## How to Get Started
 
 1. **Download the App**:  
@@ -84,14 +75,8 @@ Our app leverages Earth observation data, sensors, and real-time analytics to em
 2. **Set Up Your Farm Profile**:  
    Enter details about your crops, location, and farm size to receive customized recommendations.
 
-   > [!TIP]  
-   > The more details you provide in your farm profile, the more accurate and useful the recommendations will be.
-
 3. **Connect Sensors (Optional)**:  
    Enhance data accuracy by connecting soil and weather sensors to monitor conditions in real-time.
-
-   > [!IMPORTANT]  
-   > Regularly update the sensors' readings and profile information to get the most accurate insights and alerts.
 
 4. **Start Receiving Insights**:  
    Stay updated with alerts and notifications that keep you informed about potential threats to your crops.
