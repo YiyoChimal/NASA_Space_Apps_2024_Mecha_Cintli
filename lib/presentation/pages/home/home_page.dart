@@ -74,12 +74,11 @@ class _HomePageState extends State<HomePage> {
                 child: ListView(
                   shrinkWrap: true,
                   children: const [
-                    CropTile(title: 'carrot', path: 'assets/images/carrot.png',),
-                    CropTile(title: 'corn', path: 'assets/images/1.png',),
-                    CropTile(title: 'carrot', path: 'assets/images/2.png',),
-                    CropTile(title: 'leather', path: 'assets/images/3.png',),
-                    CropTile(title: 'cotton', path: 'assets/images/4.png',),
-                    CropTile(title: 'potato', path: 'assets/images/5.png',),
+                    CropTile(title: 'Carrot', path: 'assets/images/carrot.png',),
+                    CropTile(title: 'Corn', path: 'assets/images/corn.png',),
+                    CropTile(title: 'Leather', path: 'assets/images/leather.png',),
+                    CropTile(title: 'Cotton', path: 'assets/images/cotton.png',),
+                    CropTile(title: 'Potato', path: 'assets/images/potato.png',),
                   ],
                 ),
               )

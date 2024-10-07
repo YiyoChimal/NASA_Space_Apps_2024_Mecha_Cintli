@@ -53,7 +53,7 @@ class LoginPage extends StatelessWidget {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      context.go('/sign-up');
+                      context.go('/sign_up');
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(

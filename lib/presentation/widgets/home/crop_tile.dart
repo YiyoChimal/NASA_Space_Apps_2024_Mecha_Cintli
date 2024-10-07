@@ -29,8 +29,8 @@ final primaryGreen = const Color.fromRGBO(88, 144, 107, 1);
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(100),
               color: primaryGreen,
-              image: const DecorationImage(
-                image: AssetImage('assets/images/carrot.png'),
+              image:  DecorationImage(
+                image: AssetImage(path),
                 fit: BoxFit.cover,
               ),
             ),
@@ -41,7 +41,7 @@ final primaryGreen = const Color.fromRGBO(88, 144, 107, 1);
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Carrots',
+                title,
                 style: GoogleFonts.firaSans(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,

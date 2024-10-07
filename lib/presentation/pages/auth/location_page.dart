@@ -69,7 +69,7 @@ class _LocationPageState extends State<LocationPage> {
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
-                    context.go('/main');
+                    context.go('/');
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
