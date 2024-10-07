@@ -13,6 +13,7 @@ Explain how we addressed the project
 
 ### Video
 Gives an explanation of the project
+https://www.youtube.com/watch?v=-H7Pz4I1s2s
 
 ### Physical prototypes of the IOT solution 
 Include the Electonic and PCB desing, the code of the micro controlers that were use, and the CAD desing of prototipes ( Sensor module (Shield Root) and a transmitter-emitter module (Shield Root Collector)). 
