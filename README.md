@@ -18,15 +18,12 @@ Gives an explanation of the proyect
 Include the Electonic and PCB desing, the code of the micro controlers that were use, and the CAD desing of prototipes ( Sensor module (Shield Root) and a transmitter-emitter module (Shield Root Collector)). 
 
 #### Sensor module (Shield Root)
+![Sensor](https://github.com/user-attachments/assets/938a61e4-5fba-4572-add7-57528b6b1428)
 ![WhatsApp Image 2024-10-06 at 10 30 36 PM](https://github.com/user-attachments/assets/4da424f3-5be9-4f21-8f31-30441f954c38)
 
-![Sensor](https://github.com/user-attachments/assets/938a61e4-5fba-4572-add7-57528b6b1428)
-
-
 #### Transmitter-emitter module (Shield Root Collector)
-![Central](https://github.com/user-attachments/assets/4f3f835c-ed61-4960-a29c-ef8fd186f4bb)
-
 ![PCB_Central](https://github.com/user-attachments/assets/97acefc4-a684-4228-a397-3c8ec6e82eb6)
+![Central](https://github.com/user-attachments/assets/4f3f835c-ed61-4960-a29c-ef8fd186f4bb)
 
 ### Mobile app (Crop Shield).
 It includes the code of the app and an explanation of how it works. 
