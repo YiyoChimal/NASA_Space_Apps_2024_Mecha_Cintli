@@ -10,65 +10,65 @@ import matplotlib.pyplot as plt
 
 app = Flask(__name__)
 
-def cargar_api_movile_keys():
-    with open("api_movile_request_keys.txt", "r") as file:
-        keys = [line.strip() for line in file.readlines()]  # Lee cada línea y elimina espacios en blanco
-    return set(keys)  # Usar un set para mejorar la búsqueda y evitar duplicados
+def load_api_mobile_keys():
+    with open("D:\\Documentos\\NASA SPACE APPS 2024\\API\\api_mobile_request_keys.txt", "r") as file: #change to your own directory
+        keys = [line.strip() for line in file.readlines()]  # Read each line and remove whitespace
+    return set(keys)  # Use a set for faster search and to avoid duplicates
 
-API_KEYS = cargar_api_movile_keys()
+API_KEYS = load_api_mobile_keys()
 
-def verificar_api_key(api_key):
+def verify_api_key(api_key):
     return api_key in API_KEYS
 
-ideal_crops = open("idealConditionsForCrops.csv", "r", encoding="utf-8")
+ideal_crops = open("D:\\Documentos\\NASA SPACE APPS 2024\\API\\idealConditionsForCrops.csv", "r", encoding="utf-8")
 df_idealcrops = pd.read_csv(ideal_crops)
 
 DB_devices = "devices_information.csv"
 
 usrmeteomatics = "sanchez_fernando"
 passmeteomatics = "BF9d8pI27r"
-with open("openWeatherKey.txt", "r") as key:
+with open("D:\\Documentos\\NASA SPACE APPS 2024\\API\\openWeatherKey.txt", "r") as key:
     openWeatherKey = key.read()
 
 today = datetime.now().strftime("%Y-%m-%d")
 
-def openMeteo_dataset(latitud, longitud): #informacion a futuro 
+def openMeteo_dataset(latitude, longitude):  # Future information
     parameters_openmeteo = "temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,precipitation,evapotranspiration,soil_temperature_0cm,soil_moisture_0_to_1cm,wind_speed_10m,pressure_msl"
-    url_openmeteo = f"https://api.open-meteo.com/v1/forecast?latitude={latitud}&longitude={longitud}&hourly={parameters_openmeteo}&start={today}"
+    url_openmeteo = f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&hourly={parameters_openmeteo}&start={today}"
     response_openmeteo = requests.get(url_openmeteo)
     if response_openmeteo.status_code == 200:
         data_openmeteo = response_openmeteo.json()
     else:
-        print("no dataset: Meteo-matics")
+        print("No dataset: Meteo-matics")
     
     df_openmeteo = pd.DataFrame(data_openmeteo['hourly'])
     return df_openmeteo
 
-def meteomatics_dataset(latitud, longitud): #informacion especial
+def meteomatics_dataset(latitude, longitude):  # Special information
     agriculture_parameters_meteomatics = [
-        "soil_moisture_index_-15cm:idx",  # Índice de humedad del suelo
-        "volumetric_soil_water_-15cm:m3m3",  # Contenido volumétrico de agua en el suelo
-        "drought_index:idx",  # Índice de sequía
-        "vapor_pressure_deficit_2m:hPa",  # Déficit de presión de vapor
-        "forest_fire_warning:idx",  # Advertencia de incendio forestal
-        "frost_warning:idx" # Advertencia de heladas
+        "soil_moisture_index_-15cm:idx",  # Soil moisture index
+        "volumetric_soil_water_-15cm:m3m3",  # Volumetric soil water content
+        "drought_index:idx",  # Drought index
+        "vapor_pressure_deficit_2m:hPa",  # Vapor pressure deficit
+        "forest_fire_warning:idx",  # Forest fire warning
+        "frost_warning:idx"  # Frost warning
     ]
     parameters_meteomatics = ",".join(agriculture_parameters_meteomatics)
 
-    url_meteomatics= f"https://api.meteomatics.com/{today}T00:00:00ZP5D:PT12H/{parameters_meteomatics}/{latitud},{longitud}/html"
+    url_meteomatics = f"https://api.meteomatics.com/{today}T00:00:00ZP5D:PT12H/{parameters_meteomatics}/{latitude},{longitude}/html"
 
     response_meteomatics = requests.get(url_meteomatics, auth=(usrmeteomatics, passmeteomatics))
 
-    #meteomatics data
+    # Meteomatics data
     soup_meteomatics = BeautifulSoup(response_meteomatics.text, 'html.parser')
     csv_content_meteomatics = soup_meteomatics.find('pre', id='csv').text
     csv_buffer = StringIO(csv_content_meteomatics)
     df_meteomatics = pd.read_csv(csv_buffer, sep=';')
     
     return df_meteomatics
-    
-def openWeather_dataset(latitud, longitud): #infromacion timepo real
-    url_OpenWeather = f"https://api.openweathermap.org/data/2.5/weather?lat={latitud}&lon={longitud}&units=metric&appid={openWeatherKey}"
+
+def openWeather_dataset(latitude, longitude):  # Real-time information
+    url_OpenWeather = f"https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&units=metric&appid={openWeatherKey}"
     
     response_openWeather = requests.get(url_OpenWeather)
     
@@ -85,164 +85,162 @@ def openWeather_dataset(latitud, longitud): #infromacion timepo real
             'weather_main': data_openWeather['weather'][0]['main'],
             'weather_description': data_openWeather['weather'][0]['description'],
         }
-        
     else:
-        print("no dataset: Open Weather")
+        print("No dataset: Open Weather")
     
     df_openWeather = pd.DataFrame([weather_data])
     
     return df_openWeather
 
-def evaluar_condiciones_agricultura(df_combinado, df_ideal):
-    resultados = []
+def evaluate_agricultural_conditions(df_combined, df_ideal):
+    results = []
 
-    for index, row in df_combinado.iterrows():
-        recomendacion = {}
+    for index, row in df_combined.iterrows():
+        recommendation = {}
 
-        for _, cultivo in df_ideal.iterrows():
-            # Comparar los valores actuales con los ideales
-            cultivo_nombre = cultivo['Crop']
-            temp_actual = row['temperature_2m']
-            temp_ideal = cultivo['temperature_2m (°C)']
-            humedad_actual = row['relative_humidity_2m']
-            humedad_ideal = cultivo['relative_humidity_2m (%)']
-            precipitacion_actual = row['precipitation']
-            precipitacion_ideal = cultivo['precipitation (mm)']
-            soil_moisutre_actual = row['soil_moisture_0_to_1cm']
-            soil_moisutre_ideal = cultivo['soil_moisture_0_to_1cm (m3/m3)']
-            soil_temperature_actual = row['soil_temperature_0cm']
-            soil_temperature_ideal = cultivo['soil_temperature_0cm (°C)']
-            evapotranspiracion_actual = row['evapotranspiration']
-            evapotranspiracion_ideal = cultivo['evapotranspiration (mm)'].replace('mm/day', '').strip()
-            soil_moisture_index_actual = row['soil_moisture_index_-15cm:idx']
-            soil_moisture_index_ideal = cultivo['soil_moisture_index_-15cm (idx)']
-            volumetric_soil_water_actual = row['volumetric_soil_water_-15cm:m3m3']
-            volumetric_soil_water_ideal = cultivo['volumetric_soil_water_-15cm (m3/m3)']
-            drought_index_actual = row['drought_index:idx']
-            drought_index_ideal = cultivo['drought_index (idx)']
-            pressure_actual = row['pressure_msl']
-            pressure_ideal = cultivo['pressure_msl (hPa)']
-            vapor_pressure_deficit_actual = row['vapor_pressure_deficit_2m:hPa']
-            vapor_pressure_deficit_ideal = cultivo['vapor_pressure_deficit_2m (hPa)']
-            
-            # Lista para almacenar las condiciones fuera del rango
-            fuera_rango = []
+        for _, crop in df_ideal.iterrows():
+            # Compare current values with ideal ones
+            crop_name = crop['Crop']
+            current_temp = row['temperature_2m']
+            ideal_temp = crop['temperature_2m (°C)']
+            current_humidity = row['relative_humidity_2m']
+            ideal_humidity = crop['relative_humidity_2m (%)']
+            current_precipitation = row['precipitation']
+            ideal_precipitation = crop['precipitation (mm)']
+            current_soil_moisture = row['soil_moisture_0_to_1cm']
+            ideal_soil_moisture = crop['soil_moisture_0_to_1cm (m3/m3)']
+            current_soil_temperature = row['soil_temperature_0cm']
+            ideal_soil_temperature = crop['soil_temperature_0cm (°C)']
+            current_evapotranspiration = row['evapotranspiration']
+            ideal_evapotranspiration = crop['evapotranspiration (mm)'].replace('mm/day', '').strip()
+            current_soil_moisture_index = row['soil_moisture_index_-15cm:idx']
+            ideal_soil_moisture_index = crop['soil_moisture_index_-15cm (idx)']
+            current_volumetric_soil_water = row['volumetric_soil_water_-15cm:m3m3']
+            ideal_volumetric_soil_water = crop['volumetric_soil_water_-15cm (m3/m3)']
+            current_drought_index = row['drought_index:idx']
+            ideal_drought_index = crop['drought_index (idx)']
+            current_pressure = row['pressure_msl']
+            ideal_pressure = crop['pressure_msl (hPa)']
+            current_vapor_pressure_deficit = row['vapor_pressure_deficit_2m:hPa']
+            ideal_vapor_pressure_deficit = crop['vapor_pressure_deficit_2m (hPa)']
 
-            # Evaluar temperatura
-            temp_min, temp_max = map(float, temp_ideal.split('-'))
-            temp_ok = temp_min <= temp_actual <= temp_max
+            # List to store out-of-range conditions
+            out_of_range = []
+
+            # Evaluate temperature
+            temp_min, temp_max = map(float, ideal_temp.split('-'))
+            temp_ok = temp_min <= current_temp <= temp_max
             if not temp_ok:
-                fuera_rango.append(f'Temperatura: {temp_actual} fuera del rango {temp_min}-{temp_max}°C')
+                out_of_range.append(f'Temperature: {current_temp} out of range {temp_min}-{temp_max}°C')
 
-            # Evaluar humedad
-            humedad_min, humedad_max = map(float, humedad_ideal.split('-'))
-            humedad_ok = humedad_min <= humedad_actual <= humedad_max
-            if not humedad_ok:
-                fuera_rango.append(f'Humedad: {humedad_actual} fuera del rango {humedad_min}-{humedad_max}%')
+            # Evaluate humidity
+            humidity_min, humidity_max = map(float, ideal_humidity.split('-'))
+            humidity_ok = humidity_min <= current_humidity <= humidity_max
+            if not humidity_ok:
+                out_of_range.append(f'Humidity: {current_humidity} out of range {humidity_min}-{humidity_max}%')
 
-            # Evaluar precipitación
-            precipitacion_ok = False
-            if "total" in precipitacion_ideal:
-                precipitacion_ok = True
-            elif '-' in precipitacion_ideal:
+            # Evaluate precipitation
+            precipitation_ok = False
+            if "total" in ideal_precipitation:
+                precipitation_ok = True
+            elif '-' in ideal_precipitation:
                 try:
-                    precipitacion_min, precipitacion_max = map(float, precipitacion_ideal.split(' ')[0].split('-'))
-                    precipitacion_ok = precipitacion_min <= precipitacion_actual <= precipitacion_max
+                    precipitation_min, precipitation_max = map(float, ideal_precipitation.split(' ')[0].split('-'))
+                    precipitation_ok = precipitation_min <= current_precipitation <= precipitation_max
                 except ValueError:
-                    precipitacion_ok = False
+                    precipitation_ok = False
             else:
                 try:
-                    precipitacion_valor = float(precipitacion_ideal.split(' ')[0])
-                    precipitacion_ok = precipitacion_valor <= precipitacion_actual
+                    precipitation_value = float(ideal_precipitation.split(' ')[0])
+                    precipitation_ok = precipitation_value <= current_precipitation
                 except ValueError:
-                    precipitacion_ok = False
+                    precipitation_ok = False
 
-            if not precipitacion_ok:
-                fuera_rango.append(f'Precipitación: {precipitacion_actual} fuera del rango')
+            if not precipitation_ok:
+                out_of_range.append('Precipitation: out of range')
 
-            # Evaluar humedad del suelo
-            soilMoisture_min, soilMoisture_max = map(float, soil_moisutre_ideal.split('-'))
-            soilMoisture_ok = soilMoisture_min <= soil_moisutre_actual <= soilMoisture_max
+            # Evaluate soil moisture
+            soilMoisture_min, soilMoisture_max = map(float, ideal_soil_moisture.split('-'))
+            soilMoisture_ok = soilMoisture_min <= current_soil_moisture <= soilMoisture_max
             if not soilMoisture_ok:
-                fuera_rango.append(f'Humedad del suelo: {soil_moisutre_actual} fuera del rango {soilMoisture_min}-{soilMoisture_max} m3/m3')
+                out_of_range.append(f'Soil Moisture: {current_soil_moisture} out of range {soilMoisture_min}-{soilMoisture_max} m3/m3')
 
-            # Evaluar temperatura del suelo
-            soilTemp_min, soilTemp_max = map(float, soil_temperature_ideal.split('-'))
-            soilTemp_ok = soilTemp_min <= soil_temperature_actual <= soilTemp_max
+            # Evaluate soil temperature
+            soilTemp_min, soilTemp_max = map(float, ideal_soil_temperature.split('-'))
+            soilTemp_ok = soilTemp_min <= current_soil_temperature <= soilTemp_max
             if not soilTemp_ok:
-                fuera_rango.append(f'Temperatura del suelo: {soil_temperature_actual} fuera del rango {soilTemp_min}-{soilTemp_max}°C')
+                out_of_range.append(f'Soil Temperature: {current_soil_temperature} out of range {soilTemp_min}-{soilTemp_max}°C')
 
-            # Evaluar evapotranspiración
-            evapotranspiration_min, evapotranspiration_max = map(float, evapotranspiracion_ideal.split('-'))
-            evapotranspiration_ok = evapotranspiration_min <= evapotranspiracion_actual <= evapotranspiration_max
+            # Evaluate evapotranspiration
+            evapotranspiration_min, evapotranspiration_max = map(float, ideal_evapotranspiration.split('-'))
+            evapotranspiration_ok = evapotranspiration_min <= current_evapotranspiration <= evapotranspiration_max
             if not evapotranspiration_ok:
-                fuera_rango.append(f'Evapotranspiración: {evapotranspiracion_actual} fuera del rango {evapotranspiration_min}-{evapotranspiration_max} mm')
+                out_of_range.append(f'Evapotranspiration: {current_evapotranspiration} out of range {evapotranspiration_min}-{evapotranspiration_max} mm')
 
-            # Evaluar índice de humedad del suelo
+            # Evaluate soil moisture index
             soil_moisture_index_ok = False
-            if soil_moisture_index_ideal.lower() == "alto" or soil_moisture_index_ideal.lower() == "moderate-high":
-                soil_moisture_index_ok = soil_moisture_index_actual > 1.2
-            elif soil_moisture_index_ideal.lower() == "moderado":
-                soil_moisture_index_ok = 1.0 <= soil_moisture_index_actual <= 1.2
-            elif soil_moisture_index_ideal.lower() == "bajo":
-                soil_moisture_index_ok = soil_moisture_index_actual < 1.0
+            if ideal_soil_moisture_index.lower() == "high" or ideal_soil_moisture_index.lower() == "moderate-high":
+                soil_moisture_index_ok = current_soil_moisture_index > 1.2
+            elif ideal_soil_moisture_index.lower() == "moderate":
+                soil_moisture_index_ok = 1.0 <= current_soil_moisture_index <= 1.2
+            elif ideal_soil_moisture_index.lower() == "low":
+                soil_moisture_index_ok = current_soil_moisture_index < 1.0
 
             if not soil_moisture_index_ok:
-                fuera_rango.append(f'Índice de humedad del suelo: {soil_moisture_index_actual} fuera del ideal {soil_moisture_index_ideal}')
+                out_of_range.append(f'Soil Moisture Index: {current_soil_moisture_index} not within ideal {ideal_soil_moisture_index}')
 
-            # Evaluar agua volumétrica en el suelo
-            volumetric_soil_water_min, volumetric_soil_water_max = map(float, volumetric_soil_water_ideal.split('-'))
-            volumetric_soil_water_ok = volumetric_soil_water_min <= volumetric_soil_water_actual <= volumetric_soil_water_max
+            # Evaluate volumetric soil water
+            volumetric_soil_water_min, volumetric_soil_water_max = map(float, ideal_volumetric_soil_water.split('-'))
+            volumetric_soil_water_ok = volumetric_soil_water_min <= current_volumetric_soil_water <= volumetric_soil_water_max
             if not volumetric_soil_water_ok:
-                fuera_rango.append(f'Volumen de agua en el suelo: {volumetric_soil_water_actual} fuera del rango {volumetric_soil_water_min}-{volumetric_soil_water_max} m3/m3')
+                out_of_range.append(f'Volumetric Soil Water: {current_volumetric_soil_water} out of range {volumetric_soil_water_min}-{volumetric_soil_water_max} m3/m3')
 
-            # Evaluar índice de sequía
-            drought_index_min, drought_index_max = map(int, drought_index_ideal.split('-'))
-            drought_index_ok = drought_index_min <= drought_index_actual <= drought_index_max
+            # Evaluate drought index
+            drought_index_min, drought_index_max = map(int, ideal_drought_index.split('-'))
+            drought_index_ok = drought_index_min <= current_drought_index <= drought_index_max
             if not drought_index_ok:
-                fuera_rango.append(f'Índice de sequía: {drought_index_actual} fuera del rango {drought_index_min}-{drought_index_max}')
+                out_of_range.append(f'Drought Index: {current_drought_index} out of range {drought_index_min}-{drought_index_max}')
 
-            # Evaluar presión
-            pressure_min, pressure_max = map(int, pressure_ideal.split('-'))
-            pressure_ok = pressure_min <= pressure_actual <= pressure_max
+            # Evaluate pressure
+            pressure_min, pressure_max = map(int, ideal_pressure.split('-'))
+            pressure_ok = pressure_min <= current_pressure <= pressure_max
             if not pressure_ok:
-                fuera_rango.append(f'Presión: {pressure_actual} fuera del rango {pressure_min}-{pressure_max} hPa')
+                out_of_range.append(f'Pressure: {current_pressure} out of range {pressure_min}-{pressure_max} hPa')
 
-            # Evaluar déficit de presión de vapor
-            vapor_pressure_deficit_min, vapor_pressure_deficit_max = map(float, vapor_pressure_deficit_ideal.split('-'))
-            vapor_pressure_deficit_ok = vapor_pressure_deficit_min <= vapor_pressure_deficit_actual <= vapor_pressure_deficit_max
+            # Evaluate vapor pressure deficit
+            vapor_pressure_deficit_min, vapor_pressure_deficit_max = map(float, ideal_vapor_pressure_deficit.split('-'))
+            vapor_pressure_deficit_ok = vapor_pressure_deficit_min <= current_vapor_pressure_deficit <= vapor_pressure_deficit_max
             if not vapor_pressure_deficit_ok:
-                fuera_rango.append(f'Déficit de presión de vapor: {vapor_pressure_deficit_actual} fuera del rango {vapor_pressure_deficit_min}-{vapor_pressure_deficit_max} hPa')
+                out_of_range.append(f'Vapor Pressure Deficit: {current_vapor_pressure_deficit} out of range {vapor_pressure_deficit_min}-{vapor_pressure_deficit_max} hPa')
 
-            
-            condiciones = [
-                temp_ok, humedad_ok, precipitacion_ok, soilMoisture_ok,
+            conditions = [
+                temp_ok, humidity_ok, precipitation_ok, soilMoisture_ok,
                 soilTemp_ok, evapotranspiration_ok, soil_moisture_index_ok,
                 volumetric_soil_water_ok, drought_index_ok, pressure_ok,
                 vapor_pressure_deficit_ok
             ]
-            condiciones_optimales = sum(condiciones)
-            
-             # Generar recomendación
-            if condiciones_optimales == len(condiciones):
-                recomendacion[cultivo_nombre] = 'Condiciones óptimas para plantar'
-            elif condiciones_optimales >= 8:
-                recomendacion[cultivo_nombre] = f'Condiciones buenas pero hay que considerar algunos factores ({len(condiciones) - condiciones_optimales} fuera del rango ideal): {", ".join(fuera_rango)}'
+            optimal_conditions = sum(conditions)
+
+            # Generate recommendation
+            if optimal_conditions == len(conditions):
+                recommendation[crop_name] = 'Optimal conditions for planting'
+            elif optimal_conditions >= 8:
+                recommendation[crop_name] = f'Good conditions but consider some factors ({len(conditions) - optimal_conditions} out of the ideal range): {", ".join(out_of_range)}'
             else:
-                recomendacion[cultivo_nombre] = f'Condiciones desfavorables ({len(condiciones) - condiciones_optimales} factores fuera del rango ideal): {", ".join(fuera_rango)}'
+                recommendation[crop_name] = f'Unfavorable conditions ({len(conditions) - optimal_conditions} factors out of the ideal range): {", ".join(out_of_range)}'
 
-        recomendacion['datetime'] = row['datetime']
-        resultados.append(recomendacion)
+        recommendation['datetime'] = row['datetime']
+        results.append(recommendation)
 
-    return pd.DataFrame(resultados)
+    return pd.DataFrame(results)
 
-def detectar_fenomenos_meteorologicos(df_combinado):
-    resultados = []
+def detect_weather_phenomena(df_combined):
+    results = []
 
-    for index, row in df_combinado.iterrows():
-        alerta_fenomeno = {
+    for index, row in df_combined.iterrows():
+        weather_alert = {
             'datetime': row['datetime'],
-            'Fenomeno': 'Normal'  # Predeterminado
+            'Phenomenon': 'Normal'  # Default
         }
         
         # Variables
@@ -255,241 +253,241 @@ def detectar_fenomenos_meteorologicos(df_combinado):
         relative_humidity = row.get('relative_humidity_2m', None)
         temperature = row.get('temperature_2m', None)
         
-        # Evaluar fenómenos meteorológicos
+        # Evaluate weather phenomena
         if drought_index is not None and soil_moisture_index is not None:
             if drought_index > 3 and soil_moisture_index < 1:
-                alerta_fenomeno['Fenomeno'] = 'Sequía'
+                weather_alert['Phenomenon'] = 'Drought'
 
         if precipitation is not None and soil_moisture_index is not None:
             if precipitation > 50 and soil_moisture_index > 2:
-                alerta_fenomeno['Fenomeno'] = 'Inundación'
+                weather_alert['Phenomenon'] = 'Flood'
 
         if wind_speed is not None and precipitation is not None:
             if wind_speed > 50 and precipitation > 20:
-                alerta_fenomeno['Fenomeno'] = 'Tormenta'
+                weather_alert['Phenomenon'] = 'Storm'
 
         if wind_speed is not None and pressure_msl is not None:
             if wind_speed > 100 and pressure_msl < 950:
-                alerta_fenomeno['Fenomeno'] = 'Huracán'
+                weather_alert['Phenomenon'] = 'Hurricane'
 
             elif wind_speed > 90 and pressure_msl < 970:
-                alerta_fenomeno['Fenomeno'] = 'Tornado'
+                weather_alert['Phenomenon'] = 'Tornado'
 
         if vapor_pressure_deficit is not None and relative_humidity is not None and temperature is not None:
             if vapor_pressure_deficit > 3 and relative_humidity < 20 and temperature > 35:
-                alerta_fenomeno['Fenomeno'] = 'Incendio Forestal'
+                weather_alert['Phenomenon'] = 'Wildfire'
 
-        resultados.append(alerta_fenomeno)
+        results.append(weather_alert)
 
-    # Retornar los resultados como un DataFrame para facilitar su exportación
-    return pd.DataFrame(resultados)
+    # Return the results as a DataFrame for easy export
+    return pd.DataFrame(results)
 
-def save_device_info_to_database(ip_fija, numero_serie, fecha_recoleccion, modulos):
-    # Verifica si el archivo existe para saber si necesita escribir el encabezado
-    archivo_existe = os.path.isfile(DB_devices)
+def save_device_info_to_database(fixed_ip, serial_number, collection_date, modules):
+    # Check if the file exists to know if it needs to write the header
+    file_exists = os.path.isfile(DB_devices)
 
-    # Abre el archivo en modo de añadir (append)
-    with open(DB_devices, mode='a', newline='', encoding='utf-8') as archivo_csv:
-        writer = csv.writer(archivo_csv)
+    # Open the file in append mode
+    with open(DB_devices, mode='a', newline='', encoding='utf-8') as csv_file:
+        writer = csv.writer(csv_file)
 
-        # Si el archivo no existía, escribe el encabezado
-        if not archivo_existe:
-            writer.writerow(['IP Fija', 'Número de Serie', 'Fecha de Recolección', 
-                             'Módulo', 'Temperatura Ambiental', 'Presión Atmosférica', 'pH', 'Humedad del Suelo'])
+        # If the file didn't exist, write the header
+        if not file_exists:
+            writer.writerow(['Fixed IP', 'Serial Number', 'Collection Date', 
+                             'Module', 'Ambient Temperature', 'Atmospheric Pressure', 'pH', 'Soil Moisture'])
 
-        # Escribe los datos de cada módulo en una nueva fila
-        for i, modulo in enumerate(modulos, start=1):
-            writer.writerow([ip_fija, numero_serie, fecha_recoleccion, 
-                             f'Módulo {i}', modulo['temperatura_ambiental'], modulo['presion_atmosferica'], 
-                             modulo['ph'], modulo['humedad_suelo']])
+        # Write the data of each module in a new row
+        for i, module in enumerate(modules, start=1):
+            writer.writerow([fixed_ip, serial_number, collection_date, 
+                             f'Module {i}', module['ambient_temperature'], module['atmospheric_pressure'], 
+                             module['ph'], module['soil_moisture']])
 
-# Endpoint crops y recomendaciones agricolas
+# Endpoint crops and agricultural recommendations
 @app.route('/cropshield/crops', methods=['GET'])
 def json_recommendations():
-    latitud = request.args.get('latitud')
-    longitud = request.args.get('longitud')
-    api_key = request.args.get('api_keys')
+    latitude = request.args.get('latitude')
+    longitude = request.args.get('longitude')
+    api_key = request.args.get('api_key')
     
-    if not api_key or not verificar_api_key(api_key):
-        return jsonify({"error": "Acceso denegado. API Key inválida o no proporcionada."}), 403
+    if not api_key or not verify_api_key(api_key):
+        return jsonify({"error": "Access denied. Invalid or missing API Key."}), 403
 
-    if not latitud or not longitud:
-        return jsonify({"error": "Proporcione latitud y longitud"}), 400
+    if not latitude or not longitude:
+        return jsonify({"error": "Please provide latitude and longitude"}), 400
     
-    # Convertir latitud y longitud a float
-    latitud = float(latitud)
-    longitud = float(longitud)
+    # Convert latitude and longitude to float
+    latitude = float(latitude)
+    longitude = float(longitude)
 
-    # Obtener datasets
-    df_meteomatics = meteomatics_dataset(latitud, longitud)
-    df_openMeteo = openMeteo_dataset(latitud, longitud)
+    # Get datasets
+    df_meteomatics = meteomatics_dataset(latitude, longitude)
+    df_openMeteo = openMeteo_dataset(latitude, longitude)
 
     if df_meteomatics is None or df_openMeteo is None:
-        return jsonify({"error": "No se pudieron obtener los datos de las APIs"}), 501
+        return jsonify({"error": "Could not fetch data from the APIs"}), 501
 
     df_meteomatics['validdate'] = df_meteomatics['validdate'].str.replace('Z', '', regex=False)
     
-    # Truncar los segundos de la columna 'validdate' de df_meteomatics
+    # Truncate seconds from 'validdate' column in df_meteomatics
     df_meteomatics['validdate'] = pd.to_datetime(df_meteomatics['validdate']).dt.floor('min')
 
-    # Convertir la columna 'time' de df_openMeteo al formato datetime
+    # Convert 'time' column in df_openMeteo to datetime format
     df_openMeteo['time'] = pd.to_datetime(df_openMeteo['time']).dt.floor('min')
 
-    # Filtrar las filas de df_openMeteo que coinciden con las fechas y horas de df_meteomatics
+    # Filter df_openMeteo rows matching dates and times from df_meteomatics
     filtered_openMeteo = df_openMeteo[df_openMeteo['time'].isin(df_meteomatics['validdate'])]
 
-    # Asegurarse de que ambos dataframes tienen la columna de fechas con el mismo nombre
+    # Ensure both dataframes have the date column with the same name
     df_meteomatics.rename(columns={'validdate': 'datetime'}, inplace=True)
     filtered_openMeteo = filtered_openMeteo.rename(columns={'time': 'datetime'})
 
-    # Fusionar ambos dataframes usando la columna de datetime
+    # Merge both dataframes using the datetime column
     combined_df = pd.merge(df_meteomatics, filtered_openMeteo, on='datetime', how='inner')
 
-    # Evaluar condiciones agrícolas y fenómenos meteorológicos
-    df_results_agricolas = evaluar_condiciones_agricultura(combined_df, df_idealcrops)
-    df_results_meteorological = detectar_fenomenos_meteorologicos(combined_df)
+    # Evaluate agricultural conditions and weather phenomena
+    df_results_agricultural = evaluate_agricultural_conditions(combined_df, df_idealcrops)
+    df_results_meteorological = detect_weather_phenomena(combined_df)
 
-    # Convertir DataFrames a JSON
-    recomendaciones_agricolas_json= df_results_agricolas.to_dict(orient='records')
+    # Convert DataFrames to JSON
+    agricultural_recommendations_json = df_results_agricultural.to_dict(orient='records')
 
-    # Devolver JSON con ambas recomendaciones y alertas
+    # Return JSON with both recommendations and alerts
     return jsonify({
-        "recomendaciones_agricolas": recomendaciones_agricolas_json,
+        "agricultural_recommendations": agricultural_recommendations_json,
     })
 
 @app.route('/cropshield/alerts', methods=['GET'])
 def json_alerts():
-    latitud = request.args.get('latitud')
-    longitud = request.args.get('longitud')
-    api_key = request.args.get('api_keys')
+    latitude = request.args.get('latitude')
+    longitude = request.args.get('longitude')
+    api_key = request.args.get('api_key')
     
-    if not api_key or not verificar_api_key(api_key):
-        return jsonify({"error": "Acceso denegado. API Key inválida o no proporcionada."}), 403
+    if not api_key or not verify_api_key(api_key):
+        return jsonify({"error": "Access denied. Invalid or missing API Key."}), 403
 
-    if not latitud or not longitud:
-        return jsonify({"error": "Proporcione latitud y longitud"}), 400
+    if not latitude or not longitude:
+        return jsonify({"error": "Please provide latitude and longitude"}), 400
     
-    # Convertir latitud y longitud a float
-    latitud = float(latitud)
-    longitud = float(longitud)
+    # Convert latitude and longitude to float
+    latitude = float(latitude)
+    longitude = float(longitude)
 
-    # Obtener datasets
-    df_meteomatics = meteomatics_dataset(latitud, longitud)
-    df_openMeteo = openMeteo_dataset(latitud, longitud)
+    # Get datasets
+    df_meteomatics = meteomatics_dataset(latitude, longitude)
+    df_openMeteo = openMeteo_dataset(latitude, longitude)
 
     if df_meteomatics is None or df_openMeteo is None:
-        return jsonify({"error": "No se pudieron obtener los datos de las APIs"}), 501
+        return jsonify({"error": "Could not fetch data from the APIs"}), 501
 
     df_meteomatics['validdate'] = df_meteomatics['validdate'].str.replace('Z', '', regex=False)
     
-    # Truncar los segundos de la columna 'validdate' de df_meteomatics
+    # Truncate seconds from 'validdate' column in df_meteomatics
     df_meteomatics['validdate'] = pd.to_datetime(df_meteomatics['validdate']).dt.floor('min')
 
-    # Convertir la columna 'time' de df_openMeteo al formato datetime
+    # Convert 'time' column in df_openMeteo to datetime format
     df_openMeteo['time'] = pd.to_datetime(df_openMeteo['time']).dt.floor('min')
 
-    # Filtrar las filas de df_openMeteo que coinciden con las fechas y horas de df_meteomatics
+    # Filter df_openMeteo rows matching dates and times from df_meteomatics
     filtered_openMeteo = df_openMeteo[df_openMeteo['time'].isin(df_meteomatics['validdate'])]
 
-    # Asegurarse de que ambos dataframes tienen la columna de fechas con el mismo nombre
+    # Ensure both dataframes have the date column with the same name
     df_meteomatics.rename(columns={'validdate': 'datetime'}, inplace=True)
     filtered_openMeteo = filtered_openMeteo.rename(columns={'time': 'datetime'})
 
-    # Fusionar ambos dataframes usando la columna de datetime
+    # Merge both dataframes using the datetime column
     combined_df = pd.merge(df_meteomatics, filtered_openMeteo, on='datetime', how='inner')
 
-    # Evaluar fenómenos meteorológicos
-    df_results_meteorological = detectar_fenomenos_meteorologicos(combined_df)
+    # Evaluate weather phenomena
+    df_results_meteorological = detect_weather_phenomena(combined_df)
 
-    # Convertir DataFrames a JSON
-    alertas_meteorologicas_json = df_results_meteorological.to_dict(orient='records')
+    # Convert DataFrames to JSON
+    weather_alerts_json = df_results_meteorological.to_dict(orient='records')
 
-    # Devolver JSON con ambas recomendaciones y alertas
+    # Return JSON with both recommendations and alerts
     return jsonify({
-        "alertas_meteorologicas": alertas_meteorologicas_json
+        "weather_alerts": weather_alerts_json
     })
 
 @app.route('/cropshield/weather', methods=['GET'])
 def json_weather():
-    latitud = request.args.get('latitud')
-    longitud = request.args.get('longitud')
-    api_key = request.args.get('api_keys')
+    latitude = request.args.get('latitude')
+    longitude = request.args.get('longitude')
+    api_key = request.args.get('api_key')
     
-    if not api_key or not verificar_api_key(api_key):
-        return jsonify({"error": "Acceso denegado. API Key inválida o no proporcionada."}), 403
+    if not api_key or not verify_api_key(api_key):
+        return jsonify({"error": "Access denied. Invalid or missing API Key."}), 403
 
-    if not latitud or not longitud:
-        return jsonify({"error": "Proporcione latitud y longitud"}), 400
+    if not latitude or not longitude:
+        return jsonify({"error": "Please provide latitude and longitude"}), 400
     
-    # Convertir latitud y longitud a float
-    latitud = float(latitud)
-    longitud = float(longitud)
+    # Convert latitude and longitude to float
+    latitude = float(latitude)
+    longitude = float(longitude)
 
-    # Obtener datasets
-    df_OpenWeather = openWeather_dataset(latitud, longitud)
+    # Get datasets
+    df_OpenWeather = openWeather_dataset(latitude, longitude)
 
     if df_OpenWeather is None:
-        return jsonify({"error": "No se pudieron obtener los datos de las APIs"}), 501
+        return jsonify({"error": "Could not fetch data from the APIs"}), 501
 
-    # Convertir DataFrames a JSON
+    # Convert DataFrames to JSON
     weather_json = df_OpenWeather.to_dict(orient='records')
 
-    # Devolver JSON con ambas recomendaciones y alertas
+    # Return JSON with both recommendations and alerts
     return jsonify({
-        "alertas_meteorologicas": weather_json
+        "weather_alerts": weather_json
     })
 
 @app.route('/shieldroot/upload', methods=['POST'])
-def data_shieldroot_colect():
-    # Obtener los datos JSON del cuerpo de la solicitud
+def data_shieldroot_collect():
+    # Get JSON data from the request body
     data = request.json
 
-    # Verificar si los datos necesarios están presentes
-    ip_fija = data.get('ip_fija')
-    numero_serie = data.get('numero_serie')
-    fecha_recoleccion = data.get('fecha_recoleccion')
-    modulos = data.get('modulos')
+    # Check if required data is present
+    fixed_ip = data.get('fixed_ip')
+    serial_number = data.get('serial_number')
+    collection_date = data.get('collection_date')
+    modules = data.get('modules')
 
-    # Validación de datos
-    if not ip_fija or not numero_serie or not fecha_recoleccion or not modulos:
-        return jsonify({"error": "Faltan datos requeridos. Por favor, proporciona 'ip_fija', 'numero_serie', 'fecha_recoleccion' y 'modulos'."}), 400
+    # Data validation
+    if not fixed_ip or not serial_number or not collection_date or not modules:
+        return jsonify({"error": "Missing required data. Please provide 'fixed_ip', 'serial_number', 'collection_date', and 'modules'."}), 400
 
-    # Verificar que la información de los módulos sea válida
-    for modulo in modulos:
-        if not all(key in modulo for key in ['temperatura_ambiental', 'presion_atmosferica', 'ph', 'humedad_suelo']):
-            return jsonify({"error": "Faltan datos en la información del módulo. Cada módulo debe tener 'temperatura_ambiental', 'presion_atmosferica', 'ph' y 'humedad_suelo'."}), 500
+    # Check that module information is valid
+    for module in modules:
+        if not all(key in module for key in ['ambient_temperature', 'atmospheric_pressure', 'ph', 'soil_moisture']):
+            return jsonify({"error": "Missing data in module information. Each module must have 'ambient_temperature', 'atmospheric_pressure', 'ph', and 'soil_moisture'."}), 500
     
-    save_device_info_to_database(ip_fija, numero_serie, fecha_recoleccion, modulos)
+    save_device_info_to_database(fixed_ip, serial_number, collection_date, modules)
     
-    return jsonify({"mensaje": "Datos recibidos y procesados correctamente.", "exito": True}), 200
+    return jsonify({"message": "Data received and processed successfully.", "success": True}), 200
 
 @app.route('/shieldroot/data_get', methods=['GET'])
 def send_shieldroot_data():
-    # Obtener parámetros de filtro opcionales de la solicitud
-    ip_fija = request.args.get('ip_fija')
-    numero_serie = request.args.get('numero_serie')
-    fecha_recoleccion = request.args.get('fecha_recoleccion')
+    # Get optional filter parameters from the request
+    fixed_ip = request.args.get('fixed_ip')
+    serial_number = request.args.get('serial_number')
+    collection_date = request.args.get('collection_date')
 
-    # Lista para almacenar los datos filtrados
-    datos_filtrados = []
+    # List to store filtered data
+    filtered_data = []
 
-    # Verificar si el archivo existe antes de intentar leerlo
+    # Check if the file exists before attempting to read it
     if os.path.isfile(DB_devices):
-        with open(DB_devices, mode='r', encoding='utf-8') as archivo_csv:
-            reader = csv.DictReader(archivo_csv)
+        with open(DB_devices, mode='r', encoding='utf-8') as csv_file:
+            reader = csv.DictReader(csv_file)
 
-            # Filtrar las filas según los parámetros proporcionados
+            # Filter rows based on provided parameters
             for row in reader:
-                if ((not ip_fija or row.get('IP Fija') == ip_fija) and
-                    (not numero_serie or row.get('Número de Serie') == numero_serie) and
-                    (not fecha_recoleccion or row.get('Fecha de Recolección') == fecha_recoleccion)):
-                    datos_filtrados.append(row)
+                if ((not fixed_ip or row.get('Fixed IP') == fixed_ip) and
+                    (not serial_number or row.get('Serial Number') == serial_number) and
+                    (not collection_date or row.get('Collection Date') == collection_date)):
+                    filtered_data.append(row)
 
-    # Devolver los datos filtrados o un mensaje si no se encontraron datos
-    if datos_filtrados:
-        return jsonify({"datos": datos_filtrados, "exito": True}), 200
+    # Return filtered data or a message if no data was found
+    if filtered_data:
+        return jsonify({"data": filtered_data, "success": True}), 200
     else:
-        return jsonify({"mensaje": "No se encontraron datos con los filtros especificados.", "exito": False}), 404
+        return jsonify({"message": "No data found with the specified filters.", "success": False}), 404
 
 if __name__ == "__main__":
     app.run(debug=True)
