@@ -39,5 +39,6 @@ It is also included in the Mobile app folder but we wanted to give the direct li
 ### API
 The code of the Api and an explanation of how it works. 
 
+![WhatsApp Image 2024-10-06 at 11 26 43 PM](https://github.com/user-attachments/assets/5e11b6f4-c5a7-4fc2-bbc8-47571dfb8302)
 
 
