@@ -31,7 +31,9 @@ Include the Electonic and PCB desing, the code of the micro controlers that were
 ### Mobile app (Crop Shield).
 It includes the code of the app and an explanation of how it works. 
 
-### API
+###![WhatsApp Image 2024-10-06 at 10 30 59 PM](https://github.com/user-attachments/assets/96ff347b-fda7-4db3-9ab1-334ef44fa759)
+
+API
 The code of the Api and an explanation of how it works. 
 
 
