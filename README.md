@@ -9,10 +9,10 @@ The project was addressed with a Sensor module (Shield Root) and a transmitter-e
 According to the previous information the In this repository you will find:
 
 ### Document  
-Explain how we addressed the proyect
+Explain how we addressed the project
 
 ### Video
-Gives an explanation of the proyect
+Gives an explanation of the project
 
 ### Physical prototypes of the IOT solution 
 Include the Electonic and PCB desing, the code of the micro controlers that were use, and the CAD desing of prototipes ( Sensor module (Shield Root) and a transmitter-emitter module (Shield Root Collector)). 
