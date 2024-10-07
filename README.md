@@ -25,12 +25,15 @@ Include the Electonic and PCB desing, the code of the micro controlers that were
 ![PCB_Central](https://github.com/user-attachments/assets/97acefc4-a684-4228-a397-3c8ec6e82eb6)
 ![Central](https://github.com/user-attachments/assets/4f3f835c-ed61-4960-a29c-ef8fd186f4bb)
 
-### Mobile app (Crop Shield).
+### Mobile app (Crop Shield) .
 It includes the code of the app and an explanation of how it works. 
 
 ![WhatsApp Image 2024-10-06 at 10 30 59 PM](https://github.com/user-attachments/assets/96ff347b-fda7-4db3-9ab1-334ef44fa759)
 
-API
+## APK
+It is also included in the Mobile app folder but we wanted to give the direct link to download it at the begining of the repository. It is only for Android Users.  
+
+### API
 The code of the Api and an explanation of how it works. 
 
 
