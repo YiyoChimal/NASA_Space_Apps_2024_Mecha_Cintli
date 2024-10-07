@@ -32,6 +32,7 @@ It includes the code of the app and an explanation of how it works.
 
 ## APK
 It is also included in the Mobile app folder but we wanted to give the direct link to download it at the begining of the repository. It is only for Android Users.  
+[https://drive.google.com/drive/folders/1fvuNX0HjZaQjQwP62DIENjsXHxgcTP6A?usp=drive_link]
 
 ### API
 The code of the Api and an explanation of how it works. 
