@@ -54,13 +54,11 @@ class _HomePageState extends State<HomePage> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    DisasterCard(),
-                    DisasterCard(),
-                    DisasterCard(),
-                    DisasterCard(),
-                    DisasterCard(),
-                    DisasterCard(),
-                    DisasterCard(),
+                    DisasterCard(title: 'Flood', path: 'assets/images/flood.png'),
+                    DisasterCard(title: 'Droughts', path: 'assets/images/dis2.png'),
+                    DisasterCard(title: 'Snowfallen', path: 'assets/images/dis3.png'),
+                    DisasterCard(title: 'Hurricane', path: 'assets/images/dis4.png'),
+                    DisasterCard(title: 'Tornado', path: 'assets/images/dis5.png'),
                   ],
                 ),
               ),
@@ -76,12 +74,12 @@ class _HomePageState extends State<HomePage> {
                 child: ListView(
                   shrinkWrap: true,
                   children: const [
-                    CropTile(),
-                    CropTile(),
-                    CropTile(),
-                    CropTile(),
-                    CropTile(),
-                    CropTile(),
+                    CropTile(title: 'carrot', path: 'assets/images/carrot.png',),
+                    CropTile(title: 'corn', path: 'assets/images/1.png',),
+                    CropTile(title: 'carrot', path: 'assets/images/2.png',),
+                    CropTile(title: 'leather', path: 'assets/images/3.png',),
+                    CropTile(title: 'cotton', path: 'assets/images/4.png',),
+                    CropTile(title: 'potato', path: 'assets/images/5.png',),
                   ],
                 ),
               )

@@ -3,8 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 
 class CropTile extends StatelessWidget {
   const CropTile({
-    super.key,
+    super.key, required this.title, required this.path,
   });
+  final String title;
+  final String path;
 
 final greenAccent = const Color.fromRGBO(146, 172, 143, 0.41);
 final primaryGreen = const Color.fromRGBO(88, 144, 107, 1);

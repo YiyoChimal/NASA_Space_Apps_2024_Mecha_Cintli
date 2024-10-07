@@ -52,7 +52,9 @@ class LoginPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.go('/sign-up');
+                    },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
@@ -123,8 +125,7 @@ class LoginPage extends StatelessWidget {
           top: 200,
           child: const CircleAvatar(
             radius: 70,
-            backgroundImage: AssetImage('assets/images/logo.png',)
-
+            backgroundImage: AssetImage('assets/images/Logo.png'),
             ),
         ),
       ],
