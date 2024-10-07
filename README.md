@@ -13,6 +13,8 @@ Explain how we addressed the project
 
 ### Video
 Gives an explanation of the project
+https://img.youtube.com/vi/H7Pz4I1s2s/maxresdefault.jpg
+
 https://www.youtube.com/watch?v=-H7Pz4I1s2s
 
 ### Physical prototypes of the IOT solution 
